@@ -1,0 +1,827 @@
+---
+title: "Cálculo numérico y simulación"
+author: |-
+  Alex Zambrano
+  <alexjzc@gmail.com>
+date: "Introducción a R"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+  beamer_presentation:
+    theme: Madrid
+---
+
+## R como calculadora
+A continuación encontraran algunas operaciones básicas en R
+```{r,eval=FALSE}
+5+8
+2*4
+75-12
+(3-5)*4
+sqrt(16) # raíz cuadrada de 16
+exp(1) # número euler
+log(3) # logaritmo natural de 3
+log(1000,10) # logaritmo de 1000 en base 10
+pi # número pi
+sin(pi/2)
+cos(pi)
+tan(pi)
+floor(4.8) # redondeo por debajo
+ceiling(4.3) # redondeo por arriba
+round(pi,digits=2) # redondear por 2 decimales
+trunc(12.48) # redondeo eliminando decimales
+```
+
+## Actividad
+Realice los siguientes cálculos aritméticos y redondee los resultados a 2 cifras decimales
+
+* $\tfrac{\tfrac{24}{-8+7}}{9-6(2)}$
+* $2^3(-7)+4-\left(\frac{1}{3}+\tfrac{1}{2}\right)$
+* $\tfrac{\sqrt{16}+5(4)-3^{-2}}{3(4-8)+1}$
+* $\frac{1}{2}\left[\left(\frac{5}{4}-2^{-1}\right)\frac{13}{4}-\sqrt{7}+8\div\left(2-\frac{1}{5}\right)-3^{2}\right]$
+* $2\sin\left(\frac{\pi}{3}\right)+5\cos\left(\frac{\pi}{4}\right)-\frac{\tan\left(\frac{\pi}{6}\right)}{4}$
+* $4\log_{2}(5)-3\log_3(7)+\frac{1}{3}\ln^3(8)$
+  
+
+## Cálculos sencillos
+```{r}
+x <- 3
+x
+
+x^3
+
+x+5
+
+x=3+7
+x
+```
+
+## Cálculos sencillos
+```{r}
+x^4
+
+x <- c(1, 4, 9, 2.25, 1/4)
+x
+length(x)
+class(x)
+
+sqrt(x)
+```
+## Operaciones sencillas con vectores
+
+```{r}
+x + 1
+y <- 1:10
+x + y
+x * y
+x^2
+```
+## Operaciones sencillas con vectores
+
+```{r}
+x^2 + y^3
+exp(x)
+log(x)
+```
+
+## ¿Y qué hago cuando necesito ayuda?
+
+```{r,eval=FALSE}
+help(exp)
+help(log)
+help(seq)
+```
+
+## Actividad
+
+Considere los siguientes vectores $A^t=\begin{bmatrix} 3 & 9 & 8 & 7 \end{bmatrix}$ y $B^t=\begin{bmatrix} 1 & 5 & 0 & 4 \end{bmatrix}$ y $c=15$. Realice las siguientes operaciones
+
+* $A^3$.
+* $A+B$.
+* $A\cdot B$.
+* $c\cdot A$.
+* $\log(A)$.
+* $\exp(B\cdot A)$.
+
+## Generar vectores con seq
+```{r}
+x1 <- seq(1, 100, by=2)
+x1
+
+seq(0, 100, 10)
+
+x <- seq(1, 100, length=10)
+x
+length(x)
+
+x <- seq(1, 100, length=10)
+y <- seq(2, 100, length=50)
+```
+
+## Unir vectores con c
+
+```{r}
+z <- c(x, y)
+z
+z + c(1, 2)
+z <- c(z, z, z, z)
+z
+```
+
+## Generar vectores con rep
+
+```{r}
+rep(1:10, 4)
+
+length(z)
+
+rep(c(1, 2, 3), 10)
+rep(c(1, 2, 3), each=10)
+```
+
+## Indexado numérico de vectores
+
+```{r}
+x <- seq(1, 100, 2)
+x
+x[c(1, 2, 3, 4, 5)]
+x[1:5]
+x[10:5]
+```
+
+## Indexado de vectores con condiciones lógicas
+
+```{r}
+condicion <- (x>30)
+condicion
+class(condicion)
+x==37
+x[x==37]
+x[x!=9]
+x[x>20]
+```
+
+## Indexado de vectores con %in%
+
+```{r}
+y <- seq(101, 200, 2)
+y %in% c(101, 127, 141)
+y
+y[y %in% c(101, 127, 141)]
+```
+
+## Indexado de vectores con condiciones múltiples
+
+```{r}
+z <- c(x, y)
+z
+z>150
+z[z>150]
+z[z<30 | z>150]
+z[z>=30 & z<=150]
+z[c(1, 10, 40, 80)]
+```
+
+## Indexado de vectores con condiciones múltiples
+
+```{r}
+cond  <-  (x>10) & (x<50)
+cond
+x[cond]
+```
+
+## Con las condiciones se pueden hacer operaciones
+
+```{r}
+sum(cond)
+!cond
+sum(!cond)
+length(x[cond])
+length(x[!cond])
+as.numeric(cond)
+```
+
+## Funciones predefinidas
+
+```{r}
+summary(x)
+mean(x)
+sd(x)
+median(x)
+max(x)
+min(x)
+range(x)
+quantile(x)
+```
+
+## Actividad
+Considere la construcción de los siguientes vectores
+
+* Considere un vector $A$ cuya secuencia sea de 10 a 1000 y que vaya de 20 en 20.
+* Determine la longitud de este vector.
+* Construya un vector $B$ cuya secuencia se desde 1 hasta la longitud del vector $A$.
+* $A+B$.
+* Construya un vector $C$ cuya secuencia sea desde 1 hasta 20.
+* Construya un vector $D$ cuya secuencia sea los 20 primeros números de $A$.
+* Construya el vector $[C\,D]$.
+
+## Construcción de matrices
+
+```{r}
+z <- 1:12
+M  <-  matrix(z, nrow=3)
+M
+z
+class(M)
+dim(M)
+summary(M)
+```
+
+## Matrices a partir de vectores: rbind y cbind
+
+```{r}
+x <- 1:10
+y <- 1:10
+z <- 1:10
+z <- y <- x <- 1:10
+
+M <- cbind(x, y, z)
+M
+M <- rbind(x, y, z)
+M
+
+rbind(M, M)
+cbind(M, M)
+```
+
+## Transponer una matriz
+
+```{r}
+t(M)
+class(t)
+dim(t(M))
+```
+
+## Operaciones con matrices
+
+```{r}
+M * M
+M ^ 2
+M %*% t(M)
+```
+
+## Operaciones con matrices: funciones predefinidas
+
+```{r}
+sum(M)
+rowSums(M)
+colSums(M)
+rowMeans(M)
+colMeans(M)
+```
+
+## La función apply
+
+```{r}
+apply(M, 1, sum)
+apply(M, 2, sum)
+apply(M, 1, mean)
+apply(M, 2, mean)
+apply(M, 1, sd, na.rm=TRUE)
+apply(M, 2, sd)
+```
+
+## Indexado de matrices
+
+```{r}
+M
+M[1, ]
+M[, 1]
+sum(M[, 1])
+M[1:2, ]
+M[1:2, 2:3]
+M[1, c(1, 4)]
+M[-1,]
+M[-c(1, 2),]
+```
+
+## Actividad
+Considere la siguiente matriz
+\[
+A=\begin{bmatrix}
+  1 & 3 & 5\\
+  7 & 9 & 11
+\end{bmatrix}
+\]
+Realice las siguientes actividades
+
+* Cambie el elemento $A(2,3)$ por cero.
+* Construya una matriz $B$ la cual sea la transpuesta de $A$.
+* Construya una matriz $C$ la cual este formada por la matriz $B$ y sea aumenta con una idéntica de orden 3.
+* $A\cdot B$.
+* Sume las filas y columnas de la C.
+* Calcule el promedio por filas y columnas C.
+* Elimine la columnas impares de la matriz C.
+
+## Valores perdidos
+¿Qué es NA?
+
+```{r}
+class(NA)
+x <- rnorm(100)
+idx <- sample(length(x), 10)
+idx
+x[idx]
+x2 <- x
+x2[idx] <- NA
+x2
+```
+
+## NA en las funciones
+
+```{r}
+summary(x)
+mean(x)
+sum(x)
+
+summary(x2)
+mean(x2)
+sum(x2)
+
+mean(x2, na.rm=TRUE)
+sum(x2, na.rm=TRUE)
+sd(x2, na.rm=TRUE)
+class(TRUE)
+```
+
+## Actividad
+Considere una matriz $A$ de números aleatorios (runif) la cual tenga 10 filas y 5 columnas.
+
+Realice las siguientes actividades
+
+* Asigne como valores perdidos los siguientes elementos $A(2,3), A(4,5), A(3,4), A(2,2), A(8,1), A(9,1)$.
+* Calcule la media de cada columna.
+* Calcule la desviación de cada fila.
+
+## Actividad
+Del libro <http://www.math.csi.cuny.edu/Statistics/R/simpleR/printable/simpleR.pdf>, realizar los ejercicios capitulo 2.
+
+## Definición de funciones
+
+Para definir una función usamos la función function
+
+Forma general
+```{r,eval=FALSE}
+NombreDeFuncion <-function(arg 1, arg 2, ...) expresión
+```
+
+Ejemplo
+```{r}
+myFun <- function(x, y=c(5,6,7)) x + y
+myFun(4)
+class(myFun)
+```
+
+## Definición de funciones
+Ejemplo se desea escribir una función que realice lo siguiente
+$$
+f(x,y)=x^2+y^2
+$$
+```{r}
+circulo <- function(x,y){
+  x^2 + y^2
+}
+circulo(3,4)
+```
+
+
+
+## Definir una función a partir de funciones
+
+```{r}
+foo  <-  function(x, ...){
+  mx <- mean(x, ...)
+  medx <- median(x, ...)
+  sdx <- sd(x, ...)
+  c(mx, medx, sdx)
+  }
+```
+
+O en forma resumida:
+
+```{r,eval=FALSE}
+foo <- function(x, ...){c(mean(x, ...), median(x, ...), sd(x, ...))}
+```
+
+## Uso de funciones
+
+```{r}
+foo(1:10)
+
+rnorm(100)
+foo(rnorm(1e5))
+```
+## Actividades
+Realice las siguientes actividades
+
+* Considere la construcción de una función con un argumento, que permita determinar el coeficiente de variación $\text{CV}=S/| \overline{X} |$.
+* Construya una función llamada \verb"varianza", la cual se construya a partir de la formula de los momentos $\text{Var}=\text{E}\,(X^2)-\text{E}^2\,(X)$.
+* Compare los resultados de la función anterior con la función \verb"var" (Hint!: Para que sean comparable los resultados multiplique por $(n-1)/n$).
+* Construya una función cuyos argumentos son los tres coeficientes de la ecuación de segundo grado $ax^2+bx+c=0$ y cuyas salidas son sus dos soluciones.
+* Teniendo en cuenta la función anterior encuentre la solución a la ecuación $x^2+6x+2=0$. ( ¿Y que pasa si la solución es compleja?)
+
+## Operadores de control de flujo
+
+```{r,eval=FALSE}
+if(cond) expr
+if(cond) cons.expr  else  alt.expr
+
+for(var in seq) expr
+while(cond) expr
+repeat expr
+break
+next
+```
+
+## Ejemplo
+De un vector de valores aleatorios normales, elevar al cuadrado cada uno de ellos.
+
+```{r}
+for(n in c(2,5,10,20,50)) {
+x <- rnorm(n)
+cat(n,":", sum(x^2),"\n")
+}
+```
+## Ejemplo
+Del listado de números del-5 a 5, elevar a la tres cada término.
+
+```{r}
+for(i in -5:5)
+{cat(i,"\t", i^3,"\n")
+}
+```
+
+## Ejemplo
+De un vector de valores aleatorios normales asignarles 1 aquellos valores mayores que 0.
+
+```{r}
+set.seed(12082015)
+x <- rnorm(10)
+x2 <- as.numeric(x>0)
+for (i in 1:length(x2)){
+if (x[i]<0) x2[i] <- 0 else x2[i] <- 1
+}
+cbind(x, x2)
+```
+Otra forma
+```{r}
+set.seed(12082015)
+x <- rnorm(10)
+ifelse(x>0, 1, 0)
+```
+
+## Ejemplo
+Empezando con $i = 4$ elevar al cuadrado cada valor hasta que $i\leq 10$
+
+```{r}
+i<-4
+while(i<=10){
+  print(i^2);i=i+1
+}
+```
+Otra forma
+```{r}
+i<-4
+repeat{ print(i^2)
+  i=i+1
+  if(i > 10) break
+}
+
+```
+
+## Operadores lógicos
+
+```{r,eval=FALSE}
+! x
+x & y
+x && y
+x | y
+x || y
+xor(x, y)
+```
+
+
+## Operadores de sintaxis
+
+```{r,eval=FALSE}
+:: :::	 #access variables in a namespace
+$ @	 #component / slot extraction
+[ [[	 #indexing
+^	 #exponentiation (right to left)
+- +	 #unary minus and plus
+:	 #sequence operator
+%any%	 #special operators (including %% and %/%)
+* /	 #multiply, divide
++ -	 #(binary) add, subtract
+< > <= >= == !=	 #ordering and comparison
+!	 #negation
+& &&	 #and
+| ||	 #or
+~	 #as in formulae
+-> ->>	 #rightwards assignment
+<- <<-	 #assignment (right to left)
+=	 #assignment (right to left)
+?	 #help (unary and binary)
+```
+
+## Ejemplo
+
+Creamos una función que calcule el logaritmo de un número
+
+```{r}
+logaritmo<-function(x){
+  if(is.numeric(x)&& min(x)!=0){
+    log(x)
+  }
+  else{
+    stop("x no es numérico o es cero")
+  }
+}
+
+logaritmo(3)
+logaritmo(10)
+logaritmo(exp(1))
+```
+
+## Ejemplo
+Creamos una función que calcule el inverso de un número
+
+```{r}
+Inverso<-function(x) ifelse(x==0,NA,1/x)
+
+Inverso(-2:3)
+Inverso(-10:10)
+```
+
+## Ejemplo
+Factorial de un número
+
+```{r}
+factorial<-function(n){
+  f<-1
+  if(n>1){
+    for(i in 1:n){
+      f<-f*i
+    }
+  }
+  return(f)
+}
+
+factorial(3)
+factorial(25)
+factorial(0)
+```
+
+## Ejemplo
+Progresión aritmética
+$$
+a_n=a_1+(n-1)d
+$$
+
+```{r}
+#Formula explícita
+arit.1<-function(n=1,a1=1,d=1){
+  a1+d*(n-1)
+}
+
+#Formula recursiva
+arit.2<-function(n=1,a1=1,d=1){
+  a<-numeric(n)
+  a[1]<-a1
+  if(n>1){
+    for(i in 2:n){
+      a[i]=a[i-1]+d
+    }
+  }
+  return(a[n])
+}
+
+#Formula vectorial
+arit.3<-function(n=1,a1=1,d=1){
+  A1<-rep(a1,n)
+  D<-rep(d,n)
+  N<-0:(n-1)
+  A<-A1+N*D
+  return(A[n])
+}
+
+arit.1(n=5,a1=2,d=2)
+arit.2(n=5,a1=2,d=2)
+arit.3(n=5,a1=2,d=2)
+```
+
+##Actividad
+Realice las siguientes actividades
+  
+  * Considere un ciclo cuya ejecución permita encontrar el mayor número factorial no excede a $10^{100}$.
+  * Construya una función que devuelva la información si el número es negativo, par o impar.
+  * Construya una función que permita realizar la Progresión geométrica $a_n=a_1r^{n-1}$ donde $a_1$ primer término y $r$ razón.
+  * Para los siguientes valores (x, y): (-2,-1), (-2,0), (-2,1), (1,2), (1,-2), (3,2). Evalue lo sguiente
+  $$
+  f(x,y)=\begin{cases}
+  x + y & \text{ si } x>0 \text{ ó } y>0\\
+  x - y & \text{ si } x>0 \text{ ó } y<0\\
+  0 & \text{ en otro caso.}
+  \end{cases}
+  $$
+  * Crear una susesión de números de Fibonacci menores a 5000.
+  
+##Gráficos
+```{r}
+summary(mtcars)
+attach(mtcars)
+plot(wt, mpg) 
+abline(lm(mpg~wt))
+title("Regresión de MPG con Weight")
+```
+
+##Histograma
+```{r}
+hist(mtcars$mpg)
+#Histograma con barras rojas
+hist(mtcars$mpg, breaks=12, col="red")
+```
+
+##Gráfico de densidad
+```{r}
+d <- density(mtcars$mpg) 
+plot(d)
+```
+
+##Diagrama de puntos
+```{r}
+dotchart(mtcars$mpg,labels=row.names(mtcars),cex=.7, main="Millas por Galón según modelo de carro",
+         xlab="Millas por Galón")
+```
+
+##Gráfico de Barras
+```{r}
+conteos <- table(mtcars$gear)
+barplot(conteos, main="Distribución de Carros", xlab="Número de Velocidades")
+```
+
+##Gráfico de Barras
+```{r}
+counts <- table(mtcars$am, mtcars$gear)
+barplot(counts, main="Distribución de carros según Velocides y Tipo de Transmisión",
+  xlab="Número de Velocidades", col=c("darkblue","red"),
+ 	 legend = rownames(counts))
+```
+
+##Gráfico de Barras
+```{r}
+counts <- table(mtcars$am, mtcars$gear)
+barplot(counts, main="Distribución de carros según Velocides y Tipo de Transmisión",
+  xlab="Número de Velocidades", col=c("darkblue","red"),
+ 	 legend = rownames(counts), beside=TRUE)
+```
+
+##Gráfico de lineas
+\begin{tabular}{rrr}
+    \hline
+    Dosis & Respuesta a la droga A & Respuesta a la droga B \\
+    \hline
+    20 & 16 & 15 \\
+    30 & 20 & 18 \\
+    40 & 27 & 25 \\
+    45 & 40 & 31 \\
+    60 & 60 & 40 \\
+    \hline
+\end{tabular}
+    
+Realice un gráfico de lineas de cada una de las respuesta a cada droga.
+```{r}
+dosis <- c(20, 30, 40, 45, 60)
+drogA <- c(16, 20, 27, 40, 60)
+drogB <- c(15, 18, 25, 31, 40)
+plot(dosis, drogA, type="b", ylab="Respuestas",col=1)
+lines(dosis,drogB, type="b",lty=2, pch=17,col=2)
+legend(x=min(dosis), y=max(drogA,drogB), legend=c("DrogA","DrogB"), cex=0.8, col=c(1,2), pch=c(1,17), lty=c(1,2), title="Drogas")
+```
+
+##Diagrama Circular
+ \begin{tabular}{rr}
+    \hline
+    Ciudad & Frecuencia \\
+    \hline
+    US & 10 \\
+    UK & 12 \\
+    Australia & 4 \\
+    Alemania & 16 \\
+    Francia & 8 \\
+    \hline
+    \end{tabular}%
+  Realice un diagrama circular
+  
+  
+```{r}
+frecuencia <- c(10, 12,4, 16, 8)
+ciudades <- c("US", "UK", "Australia", "Germany", "France")
+pie(frecuencia, labels = ciudades, main="Diagrama circular de las ciudades")
+```
+
+##Diagrama Boxplot
+```{r}
+boxplot(mpg~cyl,data=mtcars, main="Kilometraje de los carros", 
+  	 xlab="Número de Cilindros", ylab="Millas por Galón")
+```
+
+##Diagrama de Dispersión
+```{r}
+plot(wt, mpg,main="Diagrama de Dispersión", xlab="Peso del Carro ", ylab="Millas por Galón", pch=19)
+```
+
+##Diagrama de Dispesión
+```{r}
+library(car) 
+scatterplot(mpg ~ wt, data=mtcars, xlab="Peso del Carro", ylab="Millas por Galón", main="Gráfico de dispersión mejorado")
+```
+
+##Matriz de Dispersión
+```{r}
+library(car)
+scatterplotMatrix(~mpg+disp+drat+wt, data=mtcars)
+```
+
+##Gráfico de Densidad
+```{r}
+library(lattice)
+
+densityplot(~mpg, main="Gráfico de Densidad", xlab="Millas por Galon")
+```
+
+##Gráfico de Densidad
+```{r}
+attach(mtcars)
+cyl <- factor(cyl, levels=c(4, 6, 8), labels=c("4 cilindros", "6 cilindros", "8 cilindros"))
+densityplot(~mpg | cyl,main="Gráfico de Densidad por Número de Cilindros",xlab="Millas por Galon")
+```
+
+##Para mayor información
+Para mayor información pueden investigar los siguientes links:
+Lattice: Multivariate Data Visualization with R <http://lmdvr.r-forge.r-project.org/figures/figures.html>
+
+Trellis Graphics User's Manual <http://cm.bell-labs.com/cm/ms/departments/sia/doc/trellis.user.pdf>
+
+##ggplot2
+Histograma
+```{r}
+library(ggplot2)
+
+m <- ggplot(mtcars, aes(x = mpg))
+m + geom_histogram(binwidth =5)
+```
+
+##Gráfico de Densidad
+```{r}
+m <- ggplot(mtcars, aes(x = mpg))
+m + geom_density()
+```
+
+##Gráfico de Densidad
+```{r}
+m <- ggplot(mtcars, aes(x = mpg,colour=cyl,group=cyl))
+m + geom_density()
+```
+
+##Diagrama de puntos
+```{r}
+m<-ggplot(mtcars, aes(x = factor(vs), fill = factor(cyl), y = mpg)) 
+m + geom_dotplot(binaxis = "y", stackdir = "center", position = "dodge")
+```
+
+##Gráfico de Barras
+```{r}
+r <- ggplot(mtcars, aes(factor(cyl)))
+r + geom_bar()
+```
+
+##Gráfico de Barras
+```{r}
+qplot(factor(cyl), data=mtcars, geom="bar", fill=factor(gear))
+```
+
+##Diagrama Boxplot
+```{r}
+m <- ggplot(mtcars, aes(factor(cyl),mpg))
+m + geom_boxplot()
+```
+
+##Diagrama de Dispesión
+```{r}
+qplot(wt,mpg, data=mtcars, facets=am~cyl, size=hp)
+```
+
+##Documentación
+Para mayor información pueden investigar en ggplot2 <http://had.co.nz/ggplot2/>
+
